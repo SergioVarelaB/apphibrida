@@ -1,4 +1,5 @@
 import 'package:apphibrida/src/detail_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
@@ -7,14 +8,37 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          Image.asset(
-            'assets/images/login_bg.png',
-          height: 400,
-          width: MediaQuery.of(context).size.width ,
-          fit: BoxFit.fill,),
+          Container(
+            child: Stack(
+              children: <Widget>[
+                Center(
+                    child: new Image.asset('assets/images/login_bg.png',
+                      height: 400,
+                      width: MediaQuery.of(context).size.width ,
+                      fit: BoxFit.fill,)
+                ),
+                Center(
+                  child: Text("Sweeping",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 50.0,
+                          height: 7.0,
+                          color: Colors.black54),),
+                ),
+                Center(
+                  child: Text("La app donde tu decides donde trabajar",
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        height: 25.0,
+                        color: Colors.black),),
+                ),
+              ],
+            ),
+          ),
           // googleButton,
           FlatButton(
             color: Colors.red,
+
             onPressed: () {
               Navigator.push(
                 context,
