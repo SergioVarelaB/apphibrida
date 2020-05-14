@@ -7,7 +7,11 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          Image.asset('assets/images/login_bg.png'),
+          Image.asset(
+            'assets/images/login_bg.png',
+          height: 400,
+          width: MediaQuery.of(context).size.width ,
+          fit: BoxFit.fill,),
           // googleButton,
           FlatButton(
             color: Colors.red,
