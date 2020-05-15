@@ -16,6 +16,7 @@ class DetailPage extends StatelessWidget {
             tagsSection,
             tagsSection,
             tagsSection,
+            favButton,
           ]),
           Row(children: <Widget>[
             titleSection,
@@ -30,13 +31,49 @@ class DetailPage extends StatelessWidget {
   }
 
   Widget tagsSection = Container(
-    padding: const EdgeInsets.all(20),
+    padding: const EdgeInsets.all(15),
     child: Text(
       'tag 1',
       softWrap: true,
-      style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
+      style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold, color: Colors.cyan, backgroundColor:Colors.black12,),
     ),
   );
+
+  Widget favButton =RawMaterialButton(
+    onPressed: () {},
+    elevation: 2.0,
+    fillColor: Colors.red,
+    child: Icon(
+      Icons.favorite,
+      color: Colors.white,
+      size: 35.0,
+    ),
+    padding: EdgeInsets.all(15.0),
+    shape: CircleBorder(),
+  );
+
+  Widget newTag = Container(
+    child: Stack(
+      children: <Widget>[
+        Center(
+          child: Text("Sweeping",
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 50.0,
+                height: 7.0,
+                color: Colors.black54),),
+        ),
+        Center(
+          child: Text("La app donde tu decides donde trabajar",
+            style: TextStyle(
+                fontSize: 15.0,
+                height: 25.0,
+                color: Colors.black),),
+        ),
+      ],
+    ),
+  );
+
 
   Widget titleSection = Container(
     padding: const EdgeInsets.all(20),
