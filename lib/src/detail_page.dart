@@ -5,27 +5,30 @@ class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          Image(
-            image: NetworkImage(
-                'https://www.thespruce.com/thmb/0mrzrF6SY9KBEE50Oko26nE2tJI=/960x0/filters:no_upscale():max_bytes(150000):strip_icc()/Mansweepingrestaurant-GettyImages-841234272-efe99f4465384a6c808f22c2e431b2c6.jpg'),
-          ),
-          Row(children: <Widget>[
-            tagsSection,
-            tagsSection,
-            tagsSection,
-            tagsSection,
-            favButton,
-          ]),
-          Row(children: <Widget>[
-            titleSection,
-          ]),
-          Row(children: <Widget>[
-            descriSection,
-          ]),
-          descriptioSection,
-        ],
+      body: SingleChildScrollView(
+        //Column
+        child: Column(
+          children: <Widget>[
+            Image(
+              image: NetworkImage(
+                  'https://www.thespruce.com/thmb/0mrzrF6SY9KBEE50Oko26nE2tJI=/960x0/filters:no_upscale():max_bytes(150000):strip_icc()/Mansweepingrestaurant-GettyImages-841234272-efe99f4465384a6c808f22c2e431b2c6.jpg'),
+            ),
+            Row(children: <Widget>[
+              tagsSection,
+              tagsSection,
+              tagsSection,
+              tagsSection,
+              favButton,
+            ]),
+            Row(children: <Widget>[
+              titleSection,
+            ]),
+            Row(children: <Widget>[
+              descriSection,
+            ]),
+            descriptioSection,
+          ],
+        ),
       ),
     );
   }
@@ -50,28 +53,6 @@ class DetailPage extends StatelessWidget {
     ),
     padding: EdgeInsets.all(15.0),
     shape: CircleBorder(),
-  );
-
-  Widget newTag = Container(
-    child: Stack(
-      children: <Widget>[
-        Center(
-          child: Text("Sweeping",
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 50.0,
-                height: 7.0,
-                color: Colors.black54),),
-        ),
-        Center(
-          child: Text("La app donde tu decides donde trabajar",
-            style: TextStyle(
-                fontSize: 15.0,
-                height: 25.0,
-                color: Colors.black),),
-        ),
-      ],
-    ),
   );
 
 
