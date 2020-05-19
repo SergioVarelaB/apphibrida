@@ -2,38 +2,47 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'models/jobs/job.dart';
+
 class DetailPage extends StatelessWidget {
+  Job job;
+
+  DetailPage({this.job});
+
+  //TODO Ya trae el job, desde el Navigator
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-        child: SingleChildScrollView(
-          child:
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Image(
-                image: NetworkImage(
-                    'https://www.thespruce.com/thmb/0mrzrF6SY9KBEE50Oko26nE2tJI=/960x0/filters:no_upscale():max_bytes(150000):strip_icc()/Mansweepingrestaurant-GettyImages-841234272-efe99f4465384a6c808f22c2e431b2c6.jpg'),
+    return Scaffold(
+      body: SingleChildScrollView(
+        //Column
+        child: Column(
+          children: <Widget>[
+            Image(
+              image: NetworkImage(
 
-              ),
-              Row(children: <Widget>[
-                tagsSection,
-                tagsSection,
-                tagsSection,
-                tagsSection,
-                favButton,
-              ]),
-              Row(children: <Widget>[
-                titleSection,
-              ]),
-              Row(children: <Widget>[
-                descriSection,
-              ]),
-              descriptioSection,
-            ],
-          ),
 
-        )
+                //TODO Esta imagen es de adorno nada más, cambiar por desription_img (Ver model de Work)
+                  'https://www.thespruce.com/thmb/0mrzrF6SY9KBEE50Oko26nE2tJI=/960x0/filters:no_upscale():max_bytes(150000):strip_icc()/Mansweepingrestaurant-GettyImages-841234272-efe99f4465384a6c808f22c2e431b2c6.jpg'),
+
+
+            ),
+            Row(children: <Widget>[
+              tagsSection,
+              tagsSection,
+              tagsSection,
+              tagsSection,
+              favButton,
+            ]),
+            Row(children: <Widget>[
+              titleSection,
+            ]),
+            Row(children: <Widget>[
+              descriSection,
+            ]),
+            descriptioSection,
+          ],
+        ),
+      ),
     );
   }
 
