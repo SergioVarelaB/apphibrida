@@ -1,11 +1,9 @@
 import 'dart:async';
-
 import 'package:apphibridatrabajos/detail_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:apphibridatrabajos/bottom_bar/fancy_bottom_bar.dart';
 import 'package:apphibridatrabajos/works.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '_works/work.dart';
 import 'maps.dart';
 
@@ -108,7 +106,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.white,
       ),
       drawer: Drawer(
         child: ListView(
