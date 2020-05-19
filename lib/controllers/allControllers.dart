@@ -5,7 +5,6 @@ import 'package:apphibridatrabajos/models/jobs/postActiveJobs.dart';
 import 'package:apphibridatrabajos/models/jobs/job.dart';
 import 'package:apphibridatrabajos/models/user/user.dart';
 import 'package:http/http.dart' as http;
-import 'package:sky_engine/_http/http.dart';
 import 'dart:async';
 import 'dart:io';
 
