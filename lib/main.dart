@@ -1,6 +1,18 @@
+import 'dart:async';
+import 'package:apphibridatrabajos/detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:apphibridatrabajos/bottom_bar/fancy_bottom_bar.dart';
 import 'package:apphibridatrabajos/jobs_page.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:apphibridatrabajos/bottom_bar/fancy_bottom_bar.dart';
+import 'package:apphibridatrabajos/works.dart';
+import '_works/work.dart';
+import 'maps.dart';
+
+List<Work> worksActive = List<Work>();
+
+List<Work> worksFinished = List<Work>();
 
 void main() => runApp(MyApp());
 
@@ -31,11 +43,15 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
+
   int selectedPos = 2;
 
 
   final tabItems = [
-    FancyBottomItem(title: Text("Home"), icon: Icon(Icons.home), content: Column(children: <Widget>[Center(child: Text('tab 1'))])),
+    FancyBottomItem(title: Text("Home"),
+        icon: Icon(Icons.home),
+        content: Maps()
+    ),
     FancyBottomItem(
         title: Text("Buscar"),
         icon: Icon(Icons.search),
@@ -50,7 +66,51 @@ class _HomeWidgetState extends State<HomeWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: <Color>[Colors.blueAccent,Colors.lightBlue])
+              ),
+              child: Container(
+                child: Column(
+                  children: <Widget>[
+                    Material(
+                        borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                        child: Image.asset('images/avatar.png', width: 100,height: 100,)
+                    ),
+                    Text(
+                      "Nombre", style: TextStyle(color: Colors.white,fontSize: 15,decorationThickness: 20),
+                    ),
+                  ],
+                ),
+              ),
 
+            ),
+            ListTile(
+              leading: Icon(Icons.history),
+              title: Text('Notificaciones'),
+            ),
+            ListTile(
+              leading: Icon(Icons.work),
+              title: Text('Mis trabajos'),
+            ),
+            ListTile(
+              leading: Icon(Icons.account_balance_wallet),
+              title: Text('Mi billetera'),
+            ),
+            ListTile(
+              leading: Icon(Icons.help),
+              title: Text('Ayuda'),
+            ),
+          ],
+        ),
+      ),
       bottomNavigationBar: FancyBottomBar(
         height: 50,
         onItemSelected: (i) => setState(() => selectedPos = i),
@@ -60,7 +120,6 @@ class _HomeWidgetState extends State<HomeWidget> {
         indicatorColor: Colors.deepPurple,
       ),
       body: Container(
-
         width: double.infinity,
         color: Colors.white,
         child: Column(
@@ -68,7 +127,6 @@ class _HomeWidgetState extends State<HomeWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             tabItems[selectedPos].content
-
           ],
         ),
       ),
