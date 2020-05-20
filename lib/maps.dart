@@ -184,10 +184,19 @@ class MapsState extends State<Maps>{
         _gotoLocation(latit, longit);
       },
       child: Container(
+        decoration: BoxDecoration(
+          color: const Color(0xff7c94b6),
+          border: Border.all(
+            color: Colors.grey,
+            width: 0.6,
+          ),
+          borderRadius: BorderRadius.circular(15.0),
+        ),
         child: new FittedBox(
           child: Material(
               color: Colors.white,
               elevation: 14.0,
+              shadowColor: Colors.transparent,
               borderRadius: BorderRadius.circular(24.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -208,7 +217,6 @@ class MapsState extends State<Maps>{
                       child: myDetailsContainer1(restaurantName),
                     ),
                   ),
-
                 ],)
           ),
         ),

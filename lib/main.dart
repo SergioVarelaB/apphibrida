@@ -55,7 +55,7 @@ class _HomeWidgetState extends State<HomeWidget> {
     FancyBottomItem(
         title: Text("Buscar"),
         icon: Icon(Icons.search),
-        content: Column(children: <Widget>[Center(child: Text('Mapa'))])
+        content: Column(children: <Widget>[Center(child: Text('aqui va algo'))])
     ),
     FancyBottomItem(title: Text("Profile"),
         icon: Icon(Icons.person),
