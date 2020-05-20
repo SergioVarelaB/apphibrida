@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:apphibridatrabajos/detail_page.dart';
+import 'package:apphibridatrabajos/notifications_page.dart';
 import 'package:flutter/material.dart';
 import 'package:apphibridatrabajos/bottom_bar/fancy_bottom_bar.dart';
 import 'package:apphibridatrabajos/jobs_page.dart';
@@ -95,6 +96,7 @@ class _HomeWidgetState extends State<HomeWidget> {
             ListTile(
               leading: Icon(Icons.history),
               title: Text('Notificaciones'),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationsPage())),
             ),
             ListTile(
               leading: Icon(Icons.work),
