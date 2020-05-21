@@ -10,10 +10,10 @@ class NotificationsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Notifications',
+      title: 'Notificaciones',
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Notifications'),
+          title: Text('Notificaciones'),
         ),
         body: Center(
           child: ListView.separated(

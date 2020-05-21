@@ -25,15 +25,21 @@ class DetailPage extends StatelessWidget {
                   'https://www.thespruce.com/thmb/0mrzrF6SY9KBEE50Oko26nE2tJI=/960x0/filters:no_upscale():max_bytes(150000):strip_icc()/Mansweepingrestaurant-GettyImages-841234272-efe99f4465384a6c808f22c2e431b2c6.jpg'),
 
             ),
-            Row(children: <Widget>[
-              tagsSection,
-              tagsSection,
-              tagsSection,
-              tagsSection,
-              favButton,
-            ]),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: <Widget>[
+                  tagItem,
+                  tagItem,
+                  tagItem,
+                  tagItem,
+                  tagItem,
+                ],
+              ),
+            ),
             Row(children: <Widget>[
               titleSection,
+              favButton,
             ]),
             Row(children: <Widget>[
               descriSection,
@@ -57,6 +63,24 @@ class DetailPage extends StatelessWidget {
         backgroundColor: Colors.black12,
       ),
     ),
+  );
+
+  Widget tagItem = Container(
+      padding: const EdgeInsets.all(3),
+      child: ButtonTheme(
+        height: 15,
+        child: RaisedButton(
+
+          onPressed: () => {debugPrint('click')},
+          color: Color(0xffeaf4fd),
+          child: Text('tag',
+              style: TextStyle(
+                fontSize: 15.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue,
+              )),
+        ),
+      )
   );
 
   Widget favButton = RawMaterialButton(
