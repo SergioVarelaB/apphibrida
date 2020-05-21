@@ -32,6 +32,11 @@ class DetailPage extends StatelessWidget {
                     right: 2,
                     bottom: 2,
                     child: favButton,
+                  ),
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: shareButton,
                   )
                 ],
               ),
@@ -106,6 +111,17 @@ class DetailPage extends StatelessWidget {
     shape: CircleBorder(),
   );
 
+  Widget shareButton = RawMaterialButton(
+    onPressed: () {},
+    elevation: 2.0,
+    child: Icon(
+      Icons.share,
+      color: Colors.white,
+      size: 35.0,
+    ),
+    padding: EdgeInsets.all(15.0),
+    shape: CircleBorder(),
+  );
 
 
   Widget titleSection = Container(
