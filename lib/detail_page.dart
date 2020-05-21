@@ -24,7 +24,6 @@ class DetailPage extends StatelessWidget {
                 //TODO Esta imagen es de adorno nada más, cambiar por desription_img (Ver model de Work)
                   'https://www.thespruce.com/thmb/0mrzrF6SY9KBEE50Oko26nE2tJI=/960x0/filters:no_upscale():max_bytes(150000):strip_icc()/Mansweepingrestaurant-GettyImages-841234272-efe99f4465384a6c808f22c2e431b2c6.jpg'),
 
-
             ),
             Row(children: <Widget>[
               tagsSection,

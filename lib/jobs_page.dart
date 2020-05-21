@@ -219,8 +219,8 @@ JobList({this.post});
         builder: (context,  projectSnap){
           if (projectSnap.connectionState == ConnectionState.done) {
 
-            //print("HOLA "+projectSnap.error.toString());
-            //print(projectSnap.data.toJson());
+            print("HOLA "+projectSnap.error.toString());
+            print(projectSnap.data.toJson());
 
             if (projectSnap.hasData) {
               return
@@ -263,6 +263,5 @@ class TextoTrabajos extends StatelessWidget{
       child: Text(texto),
     );
   }
-
 
 }

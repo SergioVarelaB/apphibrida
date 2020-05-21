@@ -6,6 +6,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
+import 'models/jobs/jobs_list.dart';
+
 
 class Maps extends StatefulWidget{
   @override
@@ -303,5 +305,4 @@ class MapsState extends State<Maps>{
     ),
   );
 
-}
-
+  }

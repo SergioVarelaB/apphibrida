@@ -11,7 +11,7 @@ import 'dart:io';
 import 'methodsApi.dart';
 
 //TODO Agregar tu dirección ip-----
-String url = 'http://192.168.0.19:3000/jobs';
+String url = 'https://super-jobs-api.herokuapp.com/jobs';
 
 
 User user = User(userId: "5e7ce2971e765b0d83316268");
@@ -44,7 +44,6 @@ Future<PostActiveJobs> getTerminatedJobs() async{
   print("bodydecode->"+PostActiveJobs.fromJson(json.decode(response.body)).toString());
   return PostActiveJobs.fromJson(json.decode(response.body));
 }
-
 
 Future<List<Job>> getAllJobs() async {
   final response = await http.get(url+'/getalljobs');
