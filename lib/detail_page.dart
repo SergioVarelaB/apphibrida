@@ -17,13 +17,24 @@ class DetailPage extends StatelessWidget {
         //Column
         child: Column(
           children: <Widget>[
-            Image(
-              image: NetworkImage(
+            Container(
+              child: Stack(
+                children: <Widget>[
+                  Image(
+                    image: NetworkImage(
 
 
-                //TODO Esta imagen es de adorno nada más, cambiar por desription_img (Ver model de Work)
-                  'https://www.thespruce.com/thmb/0mrzrF6SY9KBEE50Oko26nE2tJI=/960x0/filters:no_upscale():max_bytes(150000):strip_icc()/Mansweepingrestaurant-GettyImages-841234272-efe99f4465384a6c808f22c2e431b2c6.jpg'),
+                      //TODO Esta imagen es de adorno nada más, cambiar por desription_img (Ver model de Work)
+                        'https://www.thespruce.com/thmb/0mrzrF6SY9KBEE50Oko26nE2tJI=/960x0/filters:no_upscale():max_bytes(150000):strip_icc()/Mansweepingrestaurant-GettyImages-841234272-efe99f4465384a6c808f22c2e431b2c6.jpg'),
 
+                  ),
+                  Positioned(
+                    right: 2,
+                    bottom: 2,
+                    child: favButton,
+                  )
+                ],
+              ),
             ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -39,7 +50,6 @@ class DetailPage extends StatelessWidget {
             ),
             Row(children: <Widget>[
               titleSection,
-              favButton,
             ]),
             Row(children: <Widget>[
               descriSection,
@@ -95,6 +105,8 @@ class DetailPage extends StatelessWidget {
     padding: EdgeInsets.all(15.0),
     shape: CircleBorder(),
   );
+
+
 
   Widget titleSection = Container(
     padding: const EdgeInsets.all(20),
