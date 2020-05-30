@@ -39,8 +39,7 @@ class HomeWidget extends StatefulWidget {
 
 class _HomeWidgetState extends State<HomeWidget> {
 
-  int selectedPos = 2;
-
+  int selectedPos = 0;
 
   final tabItems = [
     FancyBottomItem(title: Text("Home"),

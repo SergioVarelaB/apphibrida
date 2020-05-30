@@ -4,9 +4,11 @@ import 'package:apphibridatrabajos/models/jobs/post.dart';
 import 'package:apphibridatrabajos/models/jobs/postActiveJobs.dart';
 import 'package:apphibridatrabajos/models/jobs/job.dart';
 import 'package:apphibridatrabajos/models/user/user.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:io';
+import 'package:apphibridatrabajos/models/jobs/point.dart';
 
 import 'methodsApi.dart';
 
@@ -45,16 +47,37 @@ Future<PostActiveJobs> getTerminatedJobs() async{
   return PostActiveJobs.fromJson(json.decode(response.body));
 }
 
-Future<List<Job>> getAllJobs() async {
-  final response = await http.get(url+'/getalljobs');
-  print(response.body);
-  return allPostsFromJson(response.body);
+Future<PostActiveJobs> getAllJobs() async {
+    final response = await http.get(url+'/getalljobs');
+    print(response.body);
+    return PostActiveJobs.fromJson(json.decode(response.body));
 }
 
 Future<Post> getAllJobsPost() async {
   final response = await http.get(url);
   print(response.body);
   return allPostsFromJsonPost(response.body);
+}
+
+
+Future<Post> nearmeJobs() async{
+  final position  = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+  double lat = position.latitude;
+  double long = position.longitude;
+  print("latitud " + lat.toString());
+  print("longitud " + long.toString());
+  Point puntito = new Point(lat: lat, lng: long);
+  final response = await http.post('$url'+'/nearme',
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/json',
+        HttpHeaders.authorizationHeader : ''
+      },
+      body: json.encode(puntito.toJson())
+  );
+  print("body del puntito  "+ response.body);
+
+  return Post.fromJson(json.decode(response.body));
+
 }
 
 Future<Post> fetchPost() async {
