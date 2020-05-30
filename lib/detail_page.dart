@@ -17,22 +17,42 @@ class DetailPage extends StatelessWidget {
         //Column
         child: Column(
           children: <Widget>[
-            Image(
-              image: NetworkImage(
+            Container(
+              child: Stack(
+                children: <Widget>[
+                  Image(
+                    image: NetworkImage(
 
 
-                //TODO Esta imagen es de adorno nada más, cambiar por desription_img (Ver model de Work)
-                  'https://www.thespruce.com/thmb/0mrzrF6SY9KBEE50Oko26nE2tJI=/960x0/filters:no_upscale():max_bytes(150000):strip_icc()/Mansweepingrestaurant-GettyImages-841234272-efe99f4465384a6c808f22c2e431b2c6.jpg'),
+                      //TODO Esta imagen es de adorno nada más, cambiar por desription_img (Ver model de Work)
+                        'https://www.thespruce.com/thmb/0mrzrF6SY9KBEE50Oko26nE2tJI=/960x0/filters:no_upscale():max_bytes(150000):strip_icc()/Mansweepingrestaurant-GettyImages-841234272-efe99f4465384a6c808f22c2e431b2c6.jpg'),
 
-
+                  ),
+                  Positioned(
+                    right: 2,
+                    bottom: 2,
+                    child: favButton,
+                  ),
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: shareButton,
+                  )
+                ],
+              ),
             ),
-            Row(children: <Widget>[
-              tagsSection,
-              tagsSection,
-              tagsSection,
-              tagsSection,
-              favButton,
-            ]),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: <Widget>[
+                  tagItem,
+                  tagItem,
+                  tagItem,
+                  tagItem,
+                  tagItem,
+                ],
+              ),
+            ),
             Row(children: <Widget>[
               titleSection,
             ]),
@@ -40,6 +60,24 @@ class DetailPage extends StatelessWidget {
               descriSection,
             ]),
             descriptioSection,
+            FlatButton(
+              color: Colors.cyan,
+              textColor: Colors.white,
+              disabledColor: Colors.grey,
+              disabledTextColor: Colors.black,
+              padding: EdgeInsets.all(10.0),
+              splashColor: Colors.blueAccent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+              ),
+              onPressed: () {
+                /*...*/
+              },
+              child: Text(
+                "Aplicar ahora",
+                style: TextStyle(fontSize: 15.0),
+              ),
+            ),
           ],
         ),
       ),
@@ -60,6 +98,24 @@ class DetailPage extends StatelessWidget {
     ),
   );
 
+  Widget tagItem = Container(
+      padding: const EdgeInsets.all(3),
+      child: ButtonTheme(
+        height: 15,
+        child: RaisedButton(
+
+          onPressed: () => {debugPrint('click')},
+          color: Color(0xffeaf4fd),
+          child: Text('tag',
+              style: TextStyle(
+                fontSize: 15.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue,
+              )),
+        ),
+      )
+  );
+
   Widget favButton = RawMaterialButton(
     onPressed: () {},
     elevation: 2.0,
@@ -69,35 +125,48 @@ class DetailPage extends StatelessWidget {
       color: Colors.white,
       size: 35.0,
     ),
-    padding: EdgeInsets.all(15.0),
+    padding: EdgeInsets.all(10.0),
     shape: CircleBorder(),
   );
 
+  Widget shareButton = RawMaterialButton(
+    onPressed: () {},
+    elevation: 2.0,
+    child: Icon(
+      Icons.share,
+      color: Colors.white,
+      size: 35.0,
+    ),
+    padding: EdgeInsets.all(10.0),
+    shape: CircleBorder(),
+  );
+
+
   Widget titleSection = Container(
-    padding: const EdgeInsets.all(20),
+    padding: const EdgeInsets.all(10),
     child: Text(
       'BARRER MI CASA',
       softWrap: true,
-      style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
+      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold,color: Colors.black87),
     ),
   );
 
   Widget descriSection = Container(
-    padding: const EdgeInsets.all(20),
+    padding: const EdgeInsets.all(10),
     child: Text(
       'Descripción',
       softWrap: true,
-      style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
+      style: TextStyle(fontSize: 15.0, color: Colors.black54),
     ),
   );
   Widget descriptioSection = Container(
-    padding: const EdgeInsets.all(20),
+    padding: const EdgeInsets.all(10),
     child: Text(
       'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
           'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
       softWrap: true,
-      style: TextStyle(fontSize: 12.0),
+      style: TextStyle(fontSize: 12.0, color: Colors.black54),
     ),
   );
 }

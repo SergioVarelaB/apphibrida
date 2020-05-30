@@ -17,7 +17,6 @@ class PostActiveJobs {
     );
   }
 
-
   Map<String, dynamic> toJson() => {
     "message": message,
     "jobs": jobs
