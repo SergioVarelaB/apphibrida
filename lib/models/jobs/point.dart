@@ -14,9 +14,5 @@ class Point {
     );
   }
 
-  Map<String, dynamic> toJson() => {
-    "lat": lat,
-    "long": lng,
-  };
 
 }
