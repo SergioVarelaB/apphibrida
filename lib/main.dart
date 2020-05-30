@@ -1,4 +1,5 @@
 import 'package:apphibridatrabajos/notifications_page.dart';
+import 'package:apphibridatrabajos/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:apphibridatrabajos/bottom_bar/fancy_bottom_bar.dart';
 import 'package:apphibridatrabajos/jobs_page.dart';
@@ -11,21 +12,20 @@ List<Work> worksFinished = List<Work>();
 
 void main() => runApp(MyApp());
 
-
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   Widget build(BuildContext context) {
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Sweeping',
+      initialRoute: '/',
+      routes: getAplicationRoutes(),
       theme: ThemeData(
         primarySwatch: Colors.grey,
       ),
-      home: new HomeWidget(),
+//      home: new HomeWidget(),
     );
   }
-
 }
 
 class HomeWidget extends StatefulWidget {
@@ -38,23 +38,18 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
-
   int selectedPos = 0;
 
   final tabItems = [
-    FancyBottomItem(title: Text("Home"),
-        icon: Icon(Icons.home),
-        content: Maps()
-    ),
+    FancyBottomItem(
+        title: Text("Home"), icon: Icon(Icons.home), content: Maps()),
     FancyBottomItem(
         title: Text("Buscar"),
         icon: Icon(Icons.search),
-        content: Column(children: <Widget>[Center(child: Text('aqui va algo'))])
-    ),
-    FancyBottomItem(title: Text("Profile"),
-        icon: Icon(Icons.person),
-        content: JobsPage()
-    ),
+        content:
+            Column(children: <Widget>[Center(child: Text('aqui va algo'))])),
+    FancyBottomItem(
+        title: Text("Profile"), icon: Icon(Icons.person), content: JobsPage()),
   ];
 
   @override
@@ -69,27 +64,34 @@ class _HomeWidgetState extends State<HomeWidget> {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: <Color>[Colors.blueAccent,Colors.lightBlue])
-              ),
+                  gradient: LinearGradient(
+                      colors: <Color>[Colors.blueAccent, Colors.lightBlue])),
               child: Container(
                 child: Column(
                   children: <Widget>[
                     Material(
                         borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                        child: Image.asset('images/avatar.png', width: 100,height: 100,)
-                    ),
+                        child: Image.asset(
+                          'images/avatar.png',
+                          width: 100,
+                          height: 100,
+                        )),
                     Text(
-                      "Nombre", style: TextStyle(color: Colors.white,fontSize: 15,decorationThickness: 20),
+                      "Nombre",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          decorationThickness: 20),
                     ),
                   ],
                 ),
               ),
-
             ),
             ListTile(
               leading: Icon(Icons.history),
               title: Text('Notificaciones'),
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationsPage())),
+              onTap: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => NotificationsPage())),
             ),
             ListTile(
               leading: Icon(Icons.work),
@@ -120,9 +122,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            tabItems[selectedPos].content
-          ],
+          children: <Widget>[tabItems[selectedPos].content],
         ),
       ),
     );
