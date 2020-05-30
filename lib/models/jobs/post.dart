@@ -21,7 +21,6 @@ class Post {
     );
   }
   Map<String, dynamic> toJson() => {
-
     "message": message,
     "totalJobs": totalJobs,
     "jobs": jobs
