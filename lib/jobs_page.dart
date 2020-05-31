@@ -162,11 +162,12 @@ class CardJob extends StatelessWidget{
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
                 child: Image(
+                  fit: BoxFit.fill,
                     height: 80,
                     width: 80,
                     image: NetworkImage(
                         //work.image  //la imagen del elemento que se le da click
-                      'https://image.freepik.com/vector-gratis/feliz-nino-pequeno-nino-barrer-piso_97632-2175.jpg'
+                      job.description_img
                     )
                 ),
               )
@@ -219,7 +220,6 @@ JobList({this.post});
         builder: (context,  projectSnap){
           if (projectSnap.connectionState == ConnectionState.done) {
 
-            print("HOLA "+projectSnap.error.toString());
             print(projectSnap.data.toJson());
 
             if (projectSnap.hasData) {

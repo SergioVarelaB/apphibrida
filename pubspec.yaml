@@ -33,6 +33,7 @@ dependencies:
   fluttertoast: ^4.0.0
   flutter_speed_dial: ^1.2.5
 
+
   http: ^0.12.1
 dev_dependencies:
   flutter_test:
@@ -54,6 +55,7 @@ flutter:
   - assets/images/login_bg.png
   - assets/images/google_icon.png
   - assets/images/facebook_icon.png
+  - assets/images/car.png
   - images/avatar.png
 
   # An image asset can refer to one or more resolution-specific "variants", see

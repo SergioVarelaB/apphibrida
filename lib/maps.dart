@@ -5,16 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'dart:async' show Future;
 import 'controllers/allControllers.dart';
 import 'models/jobs/job.dart';
 import 'models/jobs/post.dart';
-import 'models/jobs/postActiveJobs.dart';
+import 'package:http/http.dart' as http;
 
 
-Completer<GoogleMapController> _controler = Completer();
 
 class Maps extends StatefulWidget{
   @override
@@ -23,26 +21,30 @@ class Maps extends StatefulWidget{
   }
 }
 class MapsState extends State<Maps>{
+
   Completer<GoogleMapController> _controler = Completer();
+
+  Future<void> _gotoLocation(double lat, double long) async {
+    final GoogleMapController controller = await _controler.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+      target: LatLng(lat, long), zoom: 20, tilt: 50.0,
+      bearing: 45.0,)));
+  }
+
   double lat = 28.635308;
   double long = -106.075614;
   double zoom = 5.0;
+  Set<Marker> markers = Set();
 
-  List<Marker> markers = [];
+  List<Job> jobs = List();
 
-
+  BitmapDescriptor pinLocationIcon;
   @override
   void initState() {
     super.initState();
-    markers.add(Marker(
-      markerId: MarkerId('Barrer'),
-      position: LatLng(28.635308, -106.075614),
-      infoWindow: InfoWindow(title: 'Barrer'),
-      icon: BitmapDescriptor.defaultMarkerWithHue(
-        BitmapDescriptor.hueGreen,
-      ),
-    ));
+
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -50,39 +52,11 @@ class MapsState extends State<Maps>{
     double long = -106.0756140;
     double zoom = 5.0;
 
-    void showShortToast() {
-      Fluttertoast.showToast(
-          msg: "This is",
-          toastLength: Toast.LENGTH_SHORT,
-          timeInSecForIosWeb: 1);
-    }
-
-    void showShortToasts(double lat, double long) {
-      Fluttertoast.showToast(
-          msg: "" + lat.toString() + " " + long.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          timeInSecForIosWeb: 1);
-    }
-    void showShortToas(position) {
-      Fluttertoast.showToast(
-          msg: "" + position.toString(),
-          toastLength: Toast.LENGTH_SHORT,
-          timeInSecForIosWeb: 1);
-    }
 
     return Expanded(
       child: Stack(
         children: <Widget>[
-          //_builtContainer(),
-          // JobList(post: getActiveJobs()),
           _googleMap(context, lat, long),
-          Align(
-              alignment: Alignment.bottomLeft,
-              child: Container(
-                margin: EdgeInsets.symmetric(vertical: 20.0),
-                height: 110.0,
-                child: box(post: nearmeJobs()),
-              )),
           _getFAB(),
 
         ],
@@ -90,6 +64,8 @@ class MapsState extends State<Maps>{
     );
 
   }
+
+
   Widget _getFAB() {
     void _CurrentLocation() async{
       final position  = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
@@ -130,81 +106,61 @@ class MapsState extends State<Maps>{
     );
   }
 
-  Future<void> _gotoLocation(double lat, double long) async {
-    final GoogleMapController controller = await _controler.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-      target: LatLng(lat, long), zoom: 20, tilt: 50.0,
-      bearing: 45.0,)));
-  }
 
 
   Widget _googleMap(BuildContext context, double lat, double long) {
-    return Container(
-      height: MediaQuery
-          .of(context)
-          .size
-          .height,
-      width: MediaQuery
-          .of(context)
-          .size
-          .width,
-      child:
-      GoogleMap(
-        mapType: MapType.normal,
-        initialCameraPosition: CameraPosition(
-            target: LatLng(lat,long), zoom: 15),
-        onMapCreated: (GoogleMapController controller) {
-          _controler.complete(controller);
-        },
-        markers: Set.from(markers),
-      ),
-
-    );
+    return
+        Container(
+            height: MediaQuery
+                .of(context)
+                .size
+                .height,
+            width: MediaQuery
+                .of(context)
+                .size
+                .width,
+            child: list(nearmeJobs())
+        );
   }
-  Marker gramercyMarker = Marker(
-    markerId: MarkerId('Barrer'),
-    position: LatLng(28.635308, -106.075614),
-    infoWindow: InfoWindow(title: 'Barrer'),
-    icon: BitmapDescriptor.defaultMarkerWithHue(
-      BitmapDescriptor.hueGreen,
-    ),
-  );
 
-  Widget box({Future<Post> post}){
+  Widget list(Future<Post> post){
     return FutureBuilder<Post>(
       future: post,
       builder: (context,  projectSnap){
         if (projectSnap.connectionState == ConnectionState.done) {
-          print("HOLA "+projectSnap.error.toString());
-          //print(projectSnap.data.toJson());
+
           if (projectSnap.hasData) {
+            jobs = projectSnap.data.jobs;
+            _createMarkers();
             return
-              ListView.builder(
-                  padding: EdgeInsets.only(left: 40),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: projectSnap.data.jobs.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return
-                      Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.black12,
-                              width: 1.0,
-                            ),
-                            borderRadius: BorderRadius.all(
-                                Radius.circular(12.0) //         <--- border radius here
-                            ),
-                          ),
-                          margin: EdgeInsets.symmetric(horizontal: 4.0),
-                          height: 90.0,
-                          child: lista(projectSnap.data.jobs[index]),
-                          //color: Colors.blue,
-                        ),
-                      );
-                  }
+              Stack(
+                children: <Widget>[
+              GoogleMap(
+              mapType: MapType.normal,
+                initialCameraPosition: CameraPosition(
+                    target: LatLng(lat,long), zoom: 15),
+                onMapCreated: (GoogleMapController controller) {
+                  _controler.complete(controller);
+                },
+                markers: markers,
+              ),
+
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 20.0),
+                      height: 110.0,
+                      child: box(),
+                    ),
+                  ),
+                ],
               );
+            //_createMarkers();
+
+
+
+            print("Se ejecutó método _createMarkers-->"+jobs.toString());
+
           }
           else if(projectSnap.hasError){
             return Container(child: Text('No hay datos'),);
@@ -217,67 +173,153 @@ class MapsState extends State<Maps>{
     );
   }
 
-  Future<void> addmarquer(String name, String category, double lat, double long){
-    if(category == 'Jardineria'){
-      markers.add(
-          Marker(
-            markerId: MarkerId(name),
-            position: LatLng(lat, long),
-            icon: BitmapDescriptor.defaultMarkerWithHue(
-              BitmapDescriptor.hueGreen,
-            ),
-          ));
-    }else{
-      markers.add(
-          Marker(
-            markerId: MarkerId(name),
-            position: LatLng(lat, long),
-            icon: BitmapDescriptor.defaultMarkerWithHue(
-              BitmapDescriptor.hueRed,
-            ),
-          ));
+
+  Widget box() {
+    if(jobs.length>0) {
+      return
+        ListView.builder(
+            padding: EdgeInsets.only(left: 40),
+            scrollDirection: Axis.horizontal,
+            itemCount: jobs.length,
+            itemBuilder: (BuildContext context, int index) {
+              return
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black12,
+                        width: 1.0,
+                      ),
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(
+                              12.0) //         <--- border radius here
+                      ),
+                    ),
+                    margin: EdgeInsets.symmetric(horizontal: 4.0),
+                    height: 90.0,
+                    child: lista(jobs[index]),
+                    //color: Colors.blue,
+                  ),
+                );
+            }
+        );
+    }
+    else{
+      return Center(
+        child: CircularProgressIndicator(),
+      );
     }
   }
-  Widget lista(Job job) {
-    addmarquer(job.name, job.category,job.point.lat,job.point.lng);
-    print(markers.toString());
-    return GestureDetector(
-      onTap: (){
-        _gotoLocation(job.point.lat, job.point.lng);
-        print("on tap " + job.name);
-      },
-      child: new FittedBox(
-        child: Material(
-            color: Colors.white,
-            shadowColor: Colors.transparent,
-            borderRadius: BorderRadius.circular(24.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Container(
-                  width: 180,
-                  height: 160,
-                  child: ClipRRect(
-                    borderRadius: new BorderRadius.circular(24.0),
-                    child: Image(
-                      fit: BoxFit.fill,
-                      image: NetworkImage("https://www.thespruce.com/thmb/0mrzrF6SY9KBEE50Oko26nE2tJI=/960x0/filters:no_upscale():max_bytes(150000):strip_icc()/Mansweepingrestaurant-GettyImages-841234272-efe99f4465384a6c808f22c2e431b2c6.jpg"),
-                    ),
-                  ),),
-                Container(
-                  child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: myDetailsContainer1(job.name, job.description, job.amountPayment.toString())
+
+
+
+ void  _createMarkers() async{
+
+
+
+   Set<Marker> newMarkers = Set();
+
+    for(int i=0; i<jobs.length; i++){
+      //print("Lista de categorías jobs-->"+jobs[i].category);
+      if(jobs[i].category == 'Carros'){
+        newMarkers.add(
+            Marker(
+              markerId: MarkerId(jobs[i].name),
+              position: LatLng(jobs[i].point.lat, jobs[i].point.lng),
+              icon:  BitmapDescriptor.defaultMarkerWithHue(
+                BitmapDescriptor.hueCyan
+              ),
+              infoWindow: InfoWindow(title: jobs[i].name)
+            ));
+      }else{
+        newMarkers.add(
+            Marker(
+              markerId: MarkerId(jobs[i].name),
+              position: LatLng(jobs[i].point.lat, jobs[i].point.lng),
+              icon: BitmapDescriptor.defaultMarkerWithHue(
+                BitmapDescriptor.hueRed,
+              ),
+                infoWindow: InfoWindow(title: jobs[i].name)
+            ));
+      }
+    }
+    markers=newMarkers;
+    print("MarkersList-->"+markers.toString());
+
+    ListView.builder(
+        padding: EdgeInsets.only(left: 40),
+        scrollDirection: Axis.horizontal,
+        itemCount: jobs.length,
+        itemBuilder: (BuildContext context, int index) {
+          return
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black12,
+                    width: 1.0,
+                  ),
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(
+                          12.0) //         <--- border radius here
                   ),
                 ),
-              ],)
-        ),
-      ),
+                margin: EdgeInsets.symmetric(horizontal: 4.0),
+                height: 90.0,
+                child: lista(jobs[index]),
+                //color: Colors.blue,
+              ),
+            );
+        }
     );
   }
 
+
+Widget lista(Job job) {
+  print("ListaJob-->"+job.toString());
+  print("Markers Widget  lista-->"+markers.toString());
+  return GestureDetector(
+    onTap: (){
+      _gotoLocation(job.point.lat, job.point.lng);
+      print("on tap " + job.name);
+
+    },
+    child: new FittedBox(
+      child: Material(
+          color: Colors.white,
+          shadowColor: Colors.transparent,
+          borderRadius: BorderRadius.circular(24.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                width: 180,
+                height: 160,
+                child: ClipRRect(
+                  borderRadius: new BorderRadius.circular(24.0),
+                  child: Image(
+                    fit: BoxFit.fill,
+                    image: NetworkImage(job.description_img),
+                  ),
+                ),),
+              Container(
+                child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: myDetailsContainer1(job.name, job.description, job.amountPayment.toString())
+                ),
+              ),
+            ],)
+      ),
+    ),
+  );
+}
+
   Widget myDetailsContainer1(String name, String descr, String amount) {
+
     return Column(
+
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         Padding(
@@ -291,6 +333,7 @@ class MapsState extends State<Maps>{
               )),
         ),
         Container(
+
             child: Text(
               "       Description \n" + descr,
               style: TextStyle(
@@ -298,17 +341,16 @@ class MapsState extends State<Maps>{
                 fontSize: 18.0,
               ),
             )),
-        SizedBox(height:1.0),
-        Container(
+        SizedBox(height:1.0,
             child: Text(
               " \u0024\ " + amount,
               style: TextStyle(
                   color: Colors.black54,
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold),
-            )),
-      ],
+            ),
+    ),
+    ],
     );
   }
-
 }

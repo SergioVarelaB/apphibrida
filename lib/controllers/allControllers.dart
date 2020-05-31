@@ -5,18 +5,22 @@ import 'package:apphibridatrabajos/models/jobs/postActiveJobs.dart';
 import 'package:apphibridatrabajos/models/jobs/job.dart';
 import 'package:apphibridatrabajos/models/user/user.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:io';
 import 'package:apphibridatrabajos/models/jobs/point.dart';
-
 import 'methodsApi.dart';
+import 'package:apphibridatrabajos/maps.dart';
 
 //TODO Agregar tu dirección ip-----
 String url = 'https://super-jobs-api.herokuapp.com/jobs';
 
 
+
 User user = User(userId: "5e7ce2971e765b0d83316268");
+
+
 Future<PostActiveJobs> getActiveJobs() async{
 
   final response = await http.post('$url'+'/active',
@@ -26,6 +30,7 @@ Future<PostActiveJobs> getActiveJobs() async{
       },
       body: json.encode(user.toJson())
   );
+
   print("encode"+json.encode(user.toJson()));
   print("body->"+response.body);
   print("bodydecode->"+PostActiveJobs.fromJson(json.decode(response.body)).toString());
@@ -74,8 +79,10 @@ Future<Post> nearmeJobs() async{
       },
       body: json.encode(puntito.toJson())
   );
-  print("body del puntito  "+ response.body);
 
+
+  print("body parseado nearme-->"+json.encode(puntito.toJson()));
+  print("body del puntito  "+ response.body);
   return Post.fromJson(json.decode(response.body));
 
 }
