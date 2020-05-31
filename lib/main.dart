@@ -1,12 +1,17 @@
-import 'package:apphibridatrabajos/notifications_page.dart';
+import 'dart:async';
+import 'package:apphibridatrabajos/detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:apphibridatrabajos/bottom_bar/fancy_bottom_bar.dart';
 import 'package:apphibridatrabajos/jobs_page.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:apphibridatrabajos/bottom_bar/fancy_bottom_bar.dart';
+import 'package:apphibridatrabajos/works.dart';
 import '_works/work.dart';
 import 'maps.dart';
 
 List<Work> worksActive = List<Work>();
+
 List<Work> worksFinished = List<Work>();
 
 void main() => runApp(MyApp());
@@ -90,7 +95,6 @@ class _HomeWidgetState extends State<HomeWidget> {
             ListTile(
               leading: Icon(Icons.history),
               title: Text('Notificaciones'),
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationsPage())),
             ),
             ListTile(
               leading: Icon(Icons.work),
