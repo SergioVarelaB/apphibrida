@@ -2,6 +2,7 @@
 
 import 'package:apphibridatrabajos/models/user/address.dart';
 import 'package:apphibridatrabajos/models/user/document.dart';
+import 'package:apphibridatrabajos/models/user/roles.dart';
 
 class Profile {
 
@@ -16,7 +17,7 @@ class Profile {
   String maritalStatus;
   String profileImg;
   String degree;
-  String roles;
+  List<Role> roles;
   Document requiredDocuments;
 
   Profile({
@@ -37,6 +38,9 @@ class Profile {
 
   factory Profile.fromJson(Map<String, dynamic> json){
 
+    var post = json['jobs'] as List;
+    List<Role> postList = post.map((i) => Role.fromJson(i)).toList();
+
     return Profile(
         name: json['name'],
         lastname: json['lastname'],
@@ -49,7 +53,7 @@ class Profile {
         maritalStatus: json['maritalStatus'],
         profileImg: json['profileImg'],
         degree: json['degree'],
-        roles: json['roles'],
+        roles: postList,
         requiredDocuments: Document.fromJson(json['requiredDocuments'])
     );
   }

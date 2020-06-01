@@ -1,17 +1,27 @@
+import 'dart:async';
+
+import 'package:apphibridatrabajos/controllers/allControllers.dart';
+import 'package:apphibridatrabajos/main.dart';
+import 'package:apphibridatrabajos/models/jobs/acceptJob.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'models/jobs/job.dart';
+import 'models/jobs/worker.dart';
 
 class DetailPage extends StatelessWidget {
   Job job;
+  int counter;
 
-  DetailPage({this.job});
+  DetailPage({this.counter, this.job});
+
+  BuildContext buildContext;
 
   //TODO Ya trae el job, desde el Navigator
   @override
   Widget build(BuildContext context) {
+    buildContext = context;
     return Scaffold(
       body: SingleChildScrollView(
         //Column
@@ -22,9 +32,7 @@ class DetailPage extends StatelessWidget {
               child: Stack(
                 children: <Widget>[
                   Image(
-                    image: NetworkImage(
-                      job.description_img
-                    ),
+                    image: NetworkImage(job.description_img),
                   ),
                   Positioned(
                     right: 2,
@@ -54,28 +62,21 @@ class DetailPage extends StatelessWidget {
             Row(children: <Widget>[
               titleSection(),
             ]),
+            Container(
+              child: Text("Pago: " + job.amountPayment.toString()),
+            ),
+            Container(
+              child: Text("Trabajadores máximos: " + job.maxWorkers.toString()),
+            ),
+            Container(
+              child: Text(
+                  "Trabajadores actuales: " + job.workers.length.toString()),
+            ),
             Row(children: <Widget>[
               descriSection(),
             ]),
             descriptioSection(),
-            FlatButton(
-              color: Colors.cyan,
-              textColor: Colors.white,
-              disabledColor: Colors.grey,
-              disabledTextColor: Colors.black,
-              padding: EdgeInsets.all(10.0),
-              splashColor: Colors.blueAccent,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
-              ),
-              onPressed: () {
-                /*...*/
-              },
-              child: Text(
-                "Aplicar ahora",
-                style: TextStyle(fontSize: 15.0),
-              ),
-            ),
+            ButtonAccept(job: job, counter: counter)
           ],
         ),
       ),
@@ -149,7 +150,7 @@ class DetailPage extends StatelessWidget {
     );
   }
 
-  Widget descriSection(){
+  Widget descriSection() {
     return Container(
       padding: const EdgeInsets.all(10),
       child: Text(
@@ -158,10 +159,9 @@ class DetailPage extends StatelessWidget {
         style: TextStyle(fontSize: 15.0, color: Colors.black54),
       ),
     );
-
   }
 
-  Widget descriptioSection(){
+  Widget descriptioSection() {
     return Container(
       padding: const EdgeInsets.all(10),
       child: Text(
@@ -171,5 +171,88 @@ class DetailPage extends StatelessWidget {
       ),
     );
   }
+}
 
+class ButtonAccept extends StatelessWidget {
+  Job job;
+  int counter;
+
+  ButtonAccept({this.counter, this.job});
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+
+    if (job.done != true) {
+      bool isAvaliableForMe = true;
+      for (int i = 0; i < job.workers.length; i++) {
+        if (job.workers[i].id == getUser().userId) {
+          isAvaliableForMe = false;
+          counter++;
+        }
+      }
+      if (isAvaliableForMe && counter == 0) {
+        return FlatButton(
+          color: Colors.cyan,
+          textColor: Colors.white,
+          disabledColor: Colors.grey,
+          disabledTextColor: Colors.black,
+          padding: EdgeInsets.all(10.0),
+          splashColor: Colors.blueAccent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18.0),
+          ),
+          onPressed: () {
+            print("boton presionado");
+            acceptJob(job.id);
+            Scaffold.of(context).showSnackBar(SnackBar(
+              content: Text('Aceptaste el trabajo: ' + job.name),
+              duration: Duration(milliseconds: 900),
+            ));
+            Timer(Duration(milliseconds: 1000), () {
+              Navigator.pop(context, 'Acabado');
+            });
+          },
+          child: Text(
+            "Aplicar ahora",
+            style: TextStyle(fontSize: 15.0),
+          ),
+        );
+      } else {
+        return FlatButton(
+          color: Colors.cyan,
+          textColor: Colors.white,
+          disabledColor: Colors.grey,
+          disabledTextColor: Colors.black,
+          padding: EdgeInsets.all(10.0),
+          splashColor: Colors.blueAccent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18.0),
+          ),
+          onPressed: () {},
+          child: Text(
+            "Ver trabajo",
+            style: TextStyle(fontSize: 15.0),
+          ),
+        );
+      }
+    } else {
+      return FlatButton(
+        color: Colors.cyan,
+        textColor: Colors.white,
+        disabledColor: Colors.grey,
+        disabledTextColor: Colors.black,
+        padding: EdgeInsets.all(10.0),
+        splashColor: Colors.blueAccent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        onPressed: () {},
+        child: Text(
+          "Ver trabajo",
+          style: TextStyle(fontSize: 15.0),
+        ),
+      );
+    }
+  }
 }

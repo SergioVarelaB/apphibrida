@@ -70,7 +70,7 @@ class LoginPage extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                new MaterialPageRoute(builder: (context) => new DetailPage()),
+                new MaterialPageRoute(builder: (context) => new HomeWidget()),
               );
             },
             splashColor: Colors.blue,
@@ -82,7 +82,7 @@ class LoginPage extends StatelessWidget {
                 children: <Widget>[
                   Image.asset('assets/images/facebook_icon.png'),
                   Text(
-                    'Conectar con Faceboasdoka',
+                    'Conectar con Facebook',
                     style: TextStyle(color: Colors.white),
                   )
                 ],

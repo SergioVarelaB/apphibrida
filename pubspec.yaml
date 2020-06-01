@@ -56,6 +56,13 @@ flutter:
   - assets/images/google_icon.png
   - assets/images/facebook_icon.png
   - assets/images/car.png
+  - assets/images/blacksmith.png
+  - assets/images/builder.png
+  - assets/images/key.png
+  - assets/images/mop.png
+  - assets/images/paint.png
+  - assets/images/shower_dog.png
+  - assets/images/sweeping.png
   - images/avatar.png
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,20 +1,35 @@
+
 import 'package:apphibridatrabajos/notifications_page.dart';
 import 'package:apphibridatrabajos/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:apphibridatrabajos/bottom_bar/fancy_bottom_bar.dart';
 import 'package:apphibridatrabajos/jobs_page.dart';
 import 'package:flutter/cupertino.dart';
-import '_works/work.dart';
 import 'maps.dart';
+import 'models/user/profile.dart';
+import 'models/user/roles.dart';
+import 'models/user/user.dart';
 
-List<Work> worksActive = List<Work>();
-List<Work> worksFinished = List<Work>();
+List<Role> roles = List();
+User user = User(userId: "5e7ce2971e765b0d83316268", displayName: "Alonso Salcido",
+  profile: Profile(name: "Alonso", lastname: "Salcido",
+      profileImg: "https://www.tonica.la/__export/1587317376975/sites/debate/img/2020/04/19/chrisevans-portadaefe.jpg_423682103.jpg",),
+);
+
+User getUser(){
+  return user;
+}
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
   Widget build(BuildContext context) {
+
+    user.profile.roles = roles;
+
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Sweeping',
@@ -38,6 +53,8 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
+
+
   int selectedPos = 0;
 
   final tabItems = [
@@ -54,6 +71,7 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -69,15 +87,12 @@ class _HomeWidgetState extends State<HomeWidget> {
               child: Container(
                 child: Column(
                   children: <Widget>[
-                    Material(
-                        borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                        child: Image.asset(
-                          'images/avatar.png',
-                          width: 100,
-                          height: 100,
-                        )),
+                    CircleAvatar(
+                          backgroundImage: NetworkImage(user.profile.profileImg),
+                      radius: 50,
+                    ),
                     Text(
-                      "Nombre",
+                      user.displayName,
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 15,
@@ -96,6 +111,12 @@ class _HomeWidgetState extends State<HomeWidget> {
             ListTile(
               leading: Icon(Icons.work),
               title: Text('Mis trabajos'),
+              onTap: () {
+                Navigator.pop(context);
+                setState(() {
+                  selectedPos=2;
+                });
+              }
             ),
             ListTile(
               leading: Icon(Icons.account_balance_wallet),
@@ -119,12 +140,20 @@ class _HomeWidgetState extends State<HomeWidget> {
       body: Container(
         width: double.infinity,
         color: Colors.white,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[tabItems[selectedPos].content],
-        ),
+          child: Column(
+            children: <Widget>[tabItems[selectedPos].content],
+        )
       ),
     );
+  }
+
+  @override
+  void initState() {
+    roles.add(Role(name:"Herrero"));
+    roles.add(Role(name:"Cerrajero"));
+    roles.add(Role(name:"Albañil"));
+    roles.add(Role(name:"Barrendero"));
+    getUser().profile.roles = roles;
+    print("roles-->"+roles.toString());
   }
 }

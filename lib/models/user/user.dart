@@ -6,29 +6,29 @@ import 'package:apphibridatrabajos/models/user/profile.dart';
 class User {
 
   String userId;
-  /*String displayName;
+  String displayName;
   Profile profile;
-  bool terms;*/
+  bool terms;
 
 
-  User({this.userId,/* this.displayName, this.profile, this.terms*/});
+  User({this.userId,this.displayName, this.profile, this.terms});
 
   factory User.fromJson(Map<String, dynamic> json){
 
     return User(
         userId: json['userId'],
-        /*displayName: json['displayName'],
+        displayName: json['displayName'],
         profile: Profile.fromJson(json['profile']),
-        terms: json['terms']*/
+        terms: json['terms']
     );
   }
 
   Map<String, dynamic> toJson() => {
 
     "userId": userId,
-    /*"displayName": displayName,
+    "displayName": displayName,
     "profile": profile,
-    "terms": terms*/
+    "terms": terms
   };
 
 }
